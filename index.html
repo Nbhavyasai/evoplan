@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EvoPlan — CoRL 2026</title>
+  <meta name="description" content="EvoPlan: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees. CoRL 2026.">
+  <meta property="og:title" content="EvoPlan: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees">
+  <meta property="og:description" content="An LLM proposes and repairs PDDL plans, validators decide which survive, and an STL constraint mined from demonstrations gates execution on the robot. CoRL 2026.">
+  <meta property="og:image" content="static/images/overview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f5f7fa;
+      --text: #1d2330;
+      --muted: #5a6475;
+      --line: #dde2ea;
+      --accent: #1f4e79;
+      --accent-soft: #eaf3f8;
+      --chip: #1d2330;
+      --chip-text: #ffffff;
+      --code-bg: #f5f7fa;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12151b;
+        --bg-soft: #1a1f28;
+        --text: #e6e9ef;
+        --muted: #a2abba;
+        --line: #2c3340;
+        --accent: #8fbde6;
+        --accent-soft: #1b2a3a;
+        --chip: #e6e9ef;
+        --chip-text: #12151b;
+        --code-bg: #1a1f28;
+      }
+      .figure img { background: #ffffff; }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 0 16px 64px; }
+    a { color: var(--accent); }
+    h1, h2, h3 { line-height: 1.25; }
+    h2 {
+      font-size: 1.6rem;
+      margin: 56px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    h3 { font-size: 1.15rem; margin: 28px 0 8px; }
+
+    /* Header */
+    header { text-align: center; padding: 56px 0 8px; }
+    .venue {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+    header h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); margin: 0 0 20px; }
+    header h1 .name { color: var(--accent); }
+    .authors { font-size: 1.05rem; margin: 0 auto 6px; max-width: 760px; }
+    .authors span { white-space: nowrap; margin: 0 8px; }
+    .affil { color: var(--muted); margin: 0 0 4px; }
+    .note { color: var(--muted); font-size: 0.85rem; margin: 0 0 24px; }
+    .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 8px 0 8px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--chip); color: var(--chip-text);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      padding: 9px 18px; border-radius: 999px;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn.pending { opacity: 0.45; pointer-events: none; }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* Content blocks */
+    .tldr {
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 32px 0 0;
+    }
+    .figure { margin: 20px 0; text-align: center; }
+    .figure img, .figure video { max-width: 100%; height: auto; border-radius: 6px; }
+    .figure figcaption, .caption { color: var(--muted); font-size: 0.9rem; margin-top: 8px; text-align: left; }
+    .grid { display: grid; gap: 12px; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; aspect-ratio: 4 / 3; }
+    .grid figure { margin: 0; }
+    .grid figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    @media (max-width: 720px) {
+      .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0; }
+    @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+    .card { border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; background: var(--bg-soft); }
+    .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .card p { margin: 0; font-size: 0.95rem; }
+    .card .tag { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+    @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat { border: 1px solid var(--line); border-radius: 8px; padding: 14px; text-align: center; }
+    .stat b { display: block; font-size: 1.6rem; color: var(--accent); }
+    .stat span { font-size: 0.85rem; color: var(--muted); }
+
+    .table-wrap { overflow-x: auto; margin: 16px 0; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th:first-child, td:first-child { text-align: left; }
+    thead th { border-bottom: 2px solid var(--text); }
+    tr.ours td { font-weight: 700; background: var(--accent-soft); }
+
+    .video-slot {
+      aspect-ratio: 16 / 9; width: 100%;
+      border: 2px dashed var(--line); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.9rem; text-align: center; padding: 12px;
+      background: var(--bg-soft);
+    }
+    .video-embed { position: relative; aspect-ratio: 16 / 9; width: 100%; }
+    .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 8px; }
+
+    pre.bibtex {
+      background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
+      padding: 16px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 0;
+    }
+    .bib-wrap { position: relative; }
+    .copy {
+      position: absolute; top: 10px; right: 10px;
+      font: inherit; font-size: 0.8rem; cursor: pointer;
+      border: 1px solid var(--line); background: var(--bg); color: var(--text);
+      border-radius: 6px; padding: 4px 10px;
+    }
+    footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 32px 16px; border-top: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+<main>
+
+  <header>
+    <div class="venue">CoRL 2026 · Austin, Texas</div>
+    <h1><span class="name">EvoPlan</span>: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees</h1>
+    <p class="authors">
+      <span>Bhavya Sai Nukapotula</span>
+      <span>Samin Moosavi</span>
+      <span>Haoze Wang</span>
+      <span>Luke Duncan</span>
+      <span>Diya Shakkottai<sup>*</sup></span>
+      <span>Varun Murali</span>
+      <span>Srinivas Shakkottai</span>
+    </p>
+    <p class="affil">Texas A&amp;M University</p>
+    <p class="note"><sup>*</sup>Student at Westwood High School; work done as an intern at Texas A&amp;M University.</p>
+
+    <!-- TODO: fill in each href and remove class="pending" once the link exists. -->
+    <div class="links">
+      <a class="btn pending" href="#" aria-label="Paper PDF">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15a0 0 0 0 1 0 0H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg>Paper
+      </a>
+      <a class="btn pending" href="#" aria-label="arXiv">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h10v2H4zm0 5h10v2H4z"/></svg>arXiv
+      </a>
+      <a class="btn pending" href="#" aria-label="Code on GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>Code
+      </a>
+      <a class="btn" href="#videos" aria-label="Videos">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Videos
+      </a>
+    </div>
+
+    <div class="tldr">
+      <strong>TL;DR.</strong> An LLM proposes and repairs PDDL plans, programmatic validators decide which plans survive, and a Signal Temporal Logic constraint mined from unannotated demonstrations decides whether each move may be executed. When the robot violates the constraint, it replans.
+    </div>
+  </header>
+
+  <!-- ================================================================ -->
+  <section id="teaser">
+    <h2>Real-robot demo</h2>
+    <!--
+      TODO: replace the placeholder below with the headline video.
+      YouTube:   <div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="EvoPlan demo" allowfullscreen></iframe></div>
+      Self-hosted (keep files small, < 25 MB, H.264 .mp4):
+                 <video src="static/videos/teaser.mp4" controls muted playsinline poster="static/images/jackal_survey.jpg"></video>
+    -->
+    <div class="video-slot">Headline video goes here (Clearpath Jackal: survey, detect, replan, reach the object).</div>
+    <div class="grid grid-3" style="margin-top:12px">
+      <figure><img src="static/images/jackal_survey.jpg" alt="Jackal surveying the office"><figcaption>Surveying: the goal object has no stated location.</figcaption></figure>
+      <figure><img src="static/images/jackal_cones.jpg" alt="Jackal driving past cones"><figcaption>The survey continues while YOLO-World searches.</figcaption></figure>
+      <figure><img src="static/images/jackal_reached.jpg" alt="Jackal at the backpack"><figcaption>At the backpack after the perception-grounded replan.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <!-- TODO: replace with the camera-ready abstract once it is final. -->
+    <p>LLM-based robot planners are fluent but cannot guarantee that their plans are executable or safe. Classical PDDL planners can guarantee these properties, but only after the problem is fully specified, and they make poor use of an LLM's ability to read context and repair plans. This paper presents a neuro-symbolic framework with three parts.</p>
+    <p>First, an <em>offline procedure that mines a single global Signal Temporal Logic (STL) constraint</em> on mobility from demonstration data. The procedure recovers codified rules (e.g., stopping at red lights, mined from nuPlan driving logs) or population preferences (e.g., social-navigation comfort, mined from SCAND teleoperation), depending on what the demonstrations encode. Because the demonstrations are a one-class signal, we generate the missing negatives with counterfactual perturbations and an LLM violation generator and then fit the constraint by evolutionary search. We use the mined constraint to shield a vision-language driving policy on Bench2Drive and two discrete-action navigation policies on HA-VLN-CE.</p>
+    <p>Second, an <em>evolutionary PDDL planner</em>: an LLM proposes and repairs plans, programmatic validators decide which ones survive, and the validated portion of the plan grows over iterations. We test the planner on the open-world ALFWorld Text benchmark, where it beats strong baselines and stays robust when the goal vocabulary does not match the action-model vocabulary.</p>
+    <p>Third, a <em>constrained execution loop</em>: the planner's plan is compiled into waypoints, the waypoints are checked against the mined constraint, and the planner re-plans on a violation.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="method">
+    <h2>Method</h2>
+    <figure class="figure">
+      <img src="static/images/overview.png" alt="EvoPlan system overview: offline constraint extraction (top) and evolutionary PDDL solving with constrained deployment (bottom)">
+      <figcaption><strong>System overview.</strong> <em>Offline</em> (top), demonstrations are reduced to kinematic and social signals, counterfactual negatives turn the one-class data into contrastive sets, and evolutionary STL fitting produces one global mobility constraint. <em>Online</em> (bottom), an evolutionary PDDL solver proposes plans that PDDL validation must accept; each action is expanded into waypoints, checked against the STL constraint, and executed under monitoring with replanning.</figcaption>
+    </figure>
+
+    <div class="cards">
+      <div class="card">
+        <div class="tag">1 · Offline</div>
+        <h3>Mine an STL constraint</h3>
+        <p>Demonstrations contain only acceptable behaviour. Counterfactual perturbations supply the missing negatives, and LLM-guided evolutionary search fits one global STL formula over speed, clearance and social signals.</p>
+      </div>
+      <div class="card">
+        <div class="tag">2 · Planning</div>
+        <h3>Evolve PDDL plans</h3>
+        <p>An LLM proposes and repairs plans. A validator cascade (syntax, VAL simulation, goal reachability) decides which ones survive, so the LLM suggests plans but never decides which are accepted.</p>
+      </div>
+      <div class="card">
+        <div class="tag">3 · Execution</div>
+        <h3>Check, execute, replan</h3>
+        <p>Each action becomes a waypoint sequence that is checked against the mined constraint before execution. A violation commits the verified prefix and triggers a replan from the updated state.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="results">
+    <h2>Results</h2>
+
+    <div class="stats">
+      <div class="stat"><b>98.5%</b><span>open-world ALFWorld Text, aligned and misaligned vocabulary</span></div>
+      <div class="stat"><b>&minus;71%</b><span>collisions on Bench2Drive with the mined rule shield</span></div>
+      <div class="stat"><b>&minus;82% / &minus;93%</b><span>avoidable contacts on HA-VLN-CE (PointNav / MLP)</span></div>
+      <div class="stat"><b>100%</b><span>Blocksworld Misalignment, where Fast Downward scores 0%</span></div>
+    </div>
+
+    <h3>Evolutionary PDDL planner on open-world ALFWorld Text</h3>
+    <p>Success rate on the 134 unseen tasks. In the misaligned variant, the goal vocabulary (hot / clean / cool) does not match the action vocabulary (heated / washed / chilled). Baseline numbers are reproduced from NL-PDDL (Liu et al., ICLR 2026).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Aligned SR %</th><th>Misaligned SR %</th></tr></thead>
+        <tbody>
+          <tr><td>GPT-4o (direct)</td><td>21</td><td>17</td></tr>
+          <tr><td>ReAct (with examples)</td><td>81</td><td>79</td></tr>
+          <tr><td>Reflexion-10</td><td>91</td><td>&mdash;</td></tr>
+          <tr><td>NL-PDDL</td><td>94</td><td>91</td></tr>
+          <tr class="ours"><td>EvoPlan (Qwen3-32B)</td><td>98.5</td><td>98.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid grid-3">
+      <figure><img src="static/images/vp_open.png" alt="Verified-prefix growth, open-world" style="object-fit:contain;background:#fff"><figcaption>Open-world</figcaption></figure>
+      <figure><img src="static/images/vp_closed.png" alt="Verified-prefix growth, closed-world" style="object-fit:contain;background:#fff"><figcaption>Closed-world</figcaption></figure>
+      <figure><img src="static/images/vp_stacked.png" alt="Closed-world population state" style="object-fit:contain;background:#fff"><figcaption>Closed-world population</figcaption></figure>
+    </div>
+    <p class="caption">The validated fraction of the plan grows monotonically over iterations on hard tasks, although no prefix is explicitly frozen.</p>
+
+    <h3>Mined constraints shield downstream policies</h3>
+    <p>The same mining procedure recovers <em>rules</em> from nuPlan driving logs and <em>preferences</em> from SCAND teleoperation. Neither shield is trained on the target benchmark.</p>
+    <div class="grid grid-2">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bench2Drive</th><th>DS &uarr;</th><th>Coll. &darr;</th><th>Infr. &darr;</th></tr></thead>
+          <tbody>
+            <tr><td>Unshielded</td><td>62.96</td><td>14</td><td>20</td></tr>
+            <tr class="ours"><td>Shielded, &alpha;=0</td><td>65.61</td><td>4</td><td>7</td></tr>
+            <tr class="ours"><td>Shielded, &alpha;=0.30</td><td>66.20</td><td>4</td><td>6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>HA-VLN-CE</th><th>Shield</th><th>SR % &uarr;</th><th>CT % &darr;</th></tr></thead>
+          <tbody>
+            <tr><td>PointNav</td><td>off</td><td>58.7</td><td>38.1</td></tr>
+            <tr class="ours"><td>PointNav</td><td>on</td><td>57.6</td><td>18.5</td></tr>
+            <tr><td>MLP</td><td>off</td><td>32.1</td><td>30.1</td></tr>
+            <tr class="ours"><td>MLP</td><td>on</td><td>32.7</td><td>5.2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <figure class="figure">
+      <img src="static/images/safety_violins.png" alt="Per-episode safety distributions with and without the shield">
+      <figcaption>Per-episode safety distributions on HA-VLN-CE <code>val_unseen</code> (N = 1839 per violin). The shield removes the heavy unsafe tail on both architectures rather than only shifting the mean.</figcaption>
+    </figure>
+
+    <h3>Constrained execution loop in Gazebo</h3>
+    <div class="grid grid-4">
+      <figure><img src="static/images/sim_gazebo_topdown.png" alt="Factory scene"><figcaption>Factory scene</figcaption></figure>
+      <figure><img src="static/images/sim_rviz_topdown.png" alt="Planner's costmap view"><figcaption>Planner's view</figcaption></figure>
+      <figure><img src="static/images/sim_pedestrian.png" alt="Shield vetoes a step near a pedestrian"><figcaption>Shield in action</figcaption></figure>
+      <figure><img src="static/images/sim_gazebo_aisle.png" alt="Completed delivery"><figcaption>Completed mission</figcaption></figure>
+    </div>
+    <p class="caption">PDDL <code>move</code> actions are grounded into routes by Nav2 and checked against the mined constraint before execution. When a pedestrian enters the learned clearance floor, the step is vetoed and the planner replans.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="videos">
+    <h2>Videos</h2>
+    <!--
+      TODO: one slot per video. Swap each .video-slot div for either
+        <div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="..." allowfullscreen></iframe></div>
+      or
+        <video src="static/videos/NAME.mp4" controls muted playsinline></video>
+    -->
+    <div class="grid grid-2">
+      <div>
+        <div class="video-slot">Real robot: perception-grounded replanning</div>
+        <p class="caption">The goal names an object with no known location. The robot surveys, grounds the detection, and hot-swaps a validated repair without restarting the executor.</p>
+      </div>
+      <div>
+        <div class="video-slot">Real robot: STL-triggered replanning around a person</div>
+        <p class="caption">A person entering the path drives the clearance margin negative. The reactive tier re-issues the Nav2 goal, and the deliberative tier swaps in a validated plan.</p>
+      </div>
+      <div>
+        <div class="video-slot">Gazebo: factory pick-and-drop missions</div>
+        <p class="caption">Constrained execution among 9–15 simulated pedestrians.</p>
+      </div>
+      <div>
+        <div class="video-slot">Gazebo: open-world find-and-inspect</div>
+        <p class="caption">No objects are declared in advance. Detections become new PDDL objects and goals while the mission runs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="bibtex">
+    <h2>BibTeX</h2>
+    <!-- TODO: add pages/volume once the PMLR entry exists. -->
+    <div class="bib-wrap">
+      <button class="copy" type="button" onclick="copyBib(this)">Copy</button>
+<pre class="bibtex" id="bib">@inproceedings{nukapotula2026evoplan,
+  title     = {EvoPlan: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees},
+  author    = {Nukapotula, Bhavya Sai and Moosavi, Samin and Wang, Haoze and Duncan, Luke and
+               Shakkottai, Diya and Murali, Varun and Shakkottai, Srinivas},
+  booktitle = {Proceedings of the 10th Conference on Robot Learning (CoRL)},
+  series    = {Proceedings of Machine Learning Research},
+  year      = {2026}
+}</pre>
+    </div>
+  </section>
+
+</main>
+<footer>
+  Texas A&amp;M University · CoRL 2026
+</footer>
+<script>
+  function copyBib(btn) {
+    var text = document.getElementById('bib').innerText;
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    }
+  }
+</script>
+</body>
+</html>
