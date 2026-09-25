@@ -83,7 +83,14 @@
       padding: 9px 18px; border-radius: 999px;
     }
     .btn:hover { opacity: 0.85; }
-    .btn.pending { opacity: 0.45; pointer-events: none; }
+    .btn.soon { background: var(--bg-soft); color: var(--text); border: 1px solid var(--line); cursor: default; }
+    .btn.soon:hover { opacity: 1; }
+    .btn em {
+      font-style: normal; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-soft);
+      border-radius: 999px; padding: 2px 8px;
+    }
     .btn svg { width: 18px; height: 18px; fill: currentColor; }
 
     /* Content blocks */
@@ -95,7 +102,7 @@
       margin: 32px 0 0;
     }
     .figure { margin: 20px 0; text-align: center; }
-    .figure img, .figure video { max-width: 100%; height: auto; border-radius: 6px; }
+    .figure img { max-width: 100%; height: auto; border-radius: 6px; }
     .figure figcaption, .caption { color: var(--muted); font-size: 0.9rem; margin-top: 8px; text-align: left; }
     .grid { display: grid; gap: 12px; }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
@@ -129,15 +136,6 @@
     thead th { border-bottom: 2px solid var(--text); }
     tr.ours td { font-weight: 700; background: var(--accent-soft); }
 
-    .video-slot {
-      aspect-ratio: 16 / 9; width: 100%;
-      border: 2px dashed var(--line); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted); font-size: 0.9rem; text-align: center; padding: 12px;
-      background: var(--bg-soft);
-    }
-    .video-embed { position: relative; aspect-ratio: 16 / 9; width: 100%; }
-    .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 8px; }
 
     pre.bibtex {
       background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
@@ -171,20 +169,13 @@
     <p class="affil">Texas A&amp;M University</p>
     <p class="note"><sup>*</sup>Student at Westwood High School; work done as an intern at Texas A&amp;M University.</p>
 
-    <!-- TODO: fill in each href and remove class="pending" once the link exists. -->
     <div class="links">
-      <a class="btn pending" href="#" aria-label="Paper PDF">
-        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15a0 0 0 0 1 0 0H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg>Paper
-      </a>
-      <a class="btn pending" href="#" aria-label="arXiv">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h10v2H4zm0 5h10v2H4z"/></svg>arXiv
-      </a>
-      <a class="btn pending" href="#" aria-label="Code on GitHub">
-        <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>Code
-      </a>
-      <a class="btn" href="#videos" aria-label="Videos">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Videos
-      </a>
+      <span class="btn soon" aria-label="Paper, coming soon">
+        <svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12v2h8v-2H8zm0 4v2h8v-2H8z"/></svg>Paper<em>Coming soon</em>
+      </span>
+      <span class="btn soon" aria-label="Code, coming soon">
+        <svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>Code<em>Coming soon</em>
+      </span>
     </div>
 
     <div class="tldr">
@@ -195,14 +186,8 @@
   <!-- ================================================================ -->
   <section id="teaser">
     <h2>Real-robot demo</h2>
-    <!--
-      TODO: replace the placeholder below with the headline video.
-      YouTube:   <div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="EvoPlan demo" allowfullscreen></iframe></div>
-      Self-hosted (keep files small, < 25 MB, H.264 .mp4):
-                 <video src="static/videos/teaser.mp4" controls muted playsinline poster="static/images/jackal_survey.jpg"></video>
-    -->
-    <div class="video-slot">Headline video goes here (Clearpath Jackal: survey, detect, replan, reach the object).</div>
-    <div class="grid grid-3" style="margin-top:12px">
+    <p>A Clearpath Jackal J100 (ROS&nbsp;2, Nav2, YOLO-World perception) is asked to reach a backpack whose location is never stated, so the PDDL problem is unsolvable as written. VAL truncates the plan to its executable prefix, which is a survey of the office. When perception detects the backpack, the problem is rewritten and EvoPlan's validated repair is hot-swapped into the running mission without restarting the executor.</p>
+    <div class="grid grid-3">
       <figure><img src="static/images/jackal_survey.jpg" alt="Jackal surveying the office"><figcaption>Surveying: the goal object has no stated location.</figcaption></figure>
       <figure><img src="static/images/jackal_cones.jpg" alt="Jackal driving past cones"><figcaption>The survey continues while YOLO-World searches.</figcaption></figure>
       <figure><img src="static/images/jackal_reached.jpg" alt="Jackal at the backpack"><figcaption>At the backpack after the perception-grounded replan.</figcaption></figure>
@@ -212,7 +197,6 @@
   <!-- ================================================================ -->
   <section id="abstract">
     <h2>Abstract</h2>
-    <!-- TODO: replace with the camera-ready abstract once it is final. -->
     <p>LLM-based robot planners are fluent but cannot guarantee that their plans are executable or safe. Classical PDDL planners can guarantee these properties, but only after the problem is fully specified, and they make poor use of an LLM's ability to read context and repair plans. This paper presents a neuro-symbolic framework with three parts.</p>
     <p>First, an <em>offline procedure that mines a single global Signal Temporal Logic (STL) constraint</em> on mobility from demonstration data. The procedure recovers codified rules (e.g., stopping at red lights, mined from nuPlan driving logs) or population preferences (e.g., social-navigation comfort, mined from SCAND teleoperation), depending on what the demonstrations encode. Because the demonstrations are a one-class signal, we generate the missing negatives with counterfactual perturbations and an LLM violation generator and then fit the constraint by evolutionary search. We use the mined constraint to shield a vision-language driving policy on Bench2Drive and two discrete-action navigation policies on HA-VLN-CE.</p>
     <p>Second, an <em>evolutionary PDDL planner</em>: an LLM proposes and repairs plans, programmatic validators decide which ones survive, and the validated portion of the plan grows over iterations. We test the planner on the open-world ALFWorld Text benchmark, where it beats strong baselines and stays robust when the goal vocabulary does not match the action-model vocabulary.</p>
@@ -318,39 +302,10 @@
     <p class="caption">PDDL <code>move</code> actions are grounded into routes by Nav2 and checked against the mined constraint before execution. When a pedestrian enters the learned clearance floor, the step is vetoed and the planner replans.</p>
   </section>
 
-  <!-- ================================================================ -->
-  <section id="videos">
-    <h2>Videos</h2>
-    <!--
-      TODO: one slot per video. Swap each .video-slot div for either
-        <div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="..." allowfullscreen></iframe></div>
-      or
-        <video src="static/videos/NAME.mp4" controls muted playsinline></video>
-    -->
-    <div class="grid grid-2">
-      <div>
-        <div class="video-slot">Real robot: perception-grounded replanning</div>
-        <p class="caption">The goal names an object with no known location. The robot surveys, grounds the detection, and hot-swaps a validated repair without restarting the executor.</p>
-      </div>
-      <div>
-        <div class="video-slot">Real robot: STL-triggered replanning around a person</div>
-        <p class="caption">A person entering the path drives the clearance margin negative. The reactive tier re-issues the Nav2 goal, and the deliberative tier swaps in a validated plan.</p>
-      </div>
-      <div>
-        <div class="video-slot">Gazebo: factory pick-and-drop missions</div>
-        <p class="caption">Constrained execution among 9–15 simulated pedestrians.</p>
-      </div>
-      <div>
-        <div class="video-slot">Gazebo: open-world find-and-inspect</div>
-        <p class="caption">No objects are declared in advance. Detections become new PDDL objects and goals while the mission runs.</p>
-      </div>
-    </div>
-  </section>
 
   <!-- ================================================================ -->
   <section id="bibtex">
     <h2>BibTeX</h2>
-    <!-- TODO: add pages/volume once the PMLR entry exists. -->
     <div class="bib-wrap">
       <button class="copy" type="button" onclick="copyBib(this)">Copy</button>
 <pre class="bibtex" id="bib">@inproceedings{nukapotula2026evoplan,

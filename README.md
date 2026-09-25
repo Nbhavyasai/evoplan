@@ -9,7 +9,6 @@ no build step and no external dependencies, served by GitHub Pages.
 ```
 index.html            the whole page (styles inline)
 static/images/        figures rendered from the paper + robot photos
-static/videos/        self-hosted clips (optional; prefer YouTube for long videos)
 .nojekyll             tells GitHub Pages to serve files as-is
 ```
 
@@ -32,29 +31,15 @@ static/videos/        self-hosted clips (optional; prefer YouTube for long video
 
 Every later `git push` to `main` redeploys automatically.
 
-## Videos
+## Updating the page
 
-PMLR does not accept videos, so the videos live here or on YouTube.
-
-- **YouTube (recommended for anything over ~1 min):** upload as *Unlisted* or *Public*, then
-  replace a `.video-slot` div in `index.html` with
-  `<div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID" title="..." allowfullscreen></iframe></div>`.
-- **Self-hosted short clips:** GitHub rejects files over 100 MB and Pages sites should stay under
-  1 GB. Keep clips under ~25 MB, H.264 `.mp4`:
-  ```bash
-  ffmpeg -i raw.mov -vf "scale=-2:720" -c:v libx264 -crf 28 -preset slow -an static/videos/teaser.mp4
-  ```
-  then use `<video src="static/videos/teaser.mp4" controls muted playsinline></video>`.
-
-## Before announcing the page
-
-Search `index.html` for `TODO` and fill each one:
-
-- [ ] Paper / arXiv / Code button links (remove `class="pending"` once a link is set)
-- [ ] Headline video and the four video slots
-- [ ] Abstract → camera-ready abstract
-- [ ] BibTeX → add volume/pages once the PMLR entry exists
-- [ ] Put the page URL in the paper (CoRL requires a link to videos/code in the main text)
+- **Paper / Code buttons:** they currently read *Coming soon*. When a link exists, turn the
+  `<span class="btn soon">` into `<a class="btn" href="...">` and drop the `<em>Coming soon</em>` badge.
+- **Adding a video:** embed YouTube with
+  `<div style="aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/VIDEO_ID" style="width:100%;height:100%;border:0" allowfullscreen></iframe></div>`,
+  or self-host a short H.264 clip (keep it under ~25 MB; GitHub rejects files over 100 MB):
+  `ffmpeg -i raw.mov -vf "scale=-2:720" -c:v libx264 -crf 28 -preset slow -an static/videos/demo.mp4`.
+- **BibTeX:** add volume and pages once the PMLR entry exists.
 
 ## Custom domain (optional)
 
