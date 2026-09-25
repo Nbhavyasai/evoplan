@@ -103,11 +103,11 @@
     .figure { margin: 20px 0; text-align: center; }
     .figure img { max-width: 100%; height: auto; border-radius: 6px; }
     .figure figcaption, .caption { color: var(--muted); font-size: 0.9rem; margin-top: 8px; text-align: left; }
-    .grid { display: grid; gap: 12px; }
+    .grid { display: grid; gap: 12px; align-items: start; margin-bottom: 12px; }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .grid img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; aspect-ratio: 4 / 3; }
+    .grid img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 6px; aspect-ratio: 4 / 3; }
     .grid figure { margin: 0; }
     .grid figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
     @media (max-width: 720px) {
