@@ -140,9 +140,12 @@
       background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
       padding: 16px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 0;
     }
-    .bib-wrap { position: relative; }
+    .bib-head {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+      margin: 56px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+    }
+    .bib-head h2 { margin: 0; padding: 0; border: 0; }
     .copy {
-      position: absolute; top: 10px; right: 10px;
       font: inherit; font-size: 0.8rem; cursor: pointer;
       border: 1px solid var(--line); background: var(--bg); color: var(--text);
       border-radius: 6px; padding: 4px 10px;
@@ -303,20 +306,22 @@
 
   <!-- ================================================================ -->
   <section id="bibtex">
-    <h2>BibTeX</h2>
-    <div class="bib-wrap">
+    <div class="bib-head">
+      <h2>BibTeX</h2>
       <button class="copy" type="button" onclick="copyBib(this)">Copy</button>
+    </div>
 <pre class="bibtex" id="bib">@inproceedings{nukapotula2026evoplan,
-  title     = {EvoPlan: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees},
-  author    = {Nukapotula, Bhavya Sai and Moosavi, Samin and Wang, Haoze and Duncan, Luke and
-               Shakkottai, Diya and Murali, Varun and Shakkottai, Srinivas},
-  booktitle = {Proceedings of the 10th Conference on Robot Learning (CoRL)},
-  series    = {Proceedings of Machine Learning Research},
-  year      = {2026},
-  eprint    = {2607.06724},
+  title         = {EvoPlan: Evolutionary Neuro-Symbolic Robot Planning
+                   with Spatio-Temporal Guarantees},
+  author        = {Nukapotula, Bhavya Sai and Moosavi, Samin and Wang, Haoze and
+                   Duncan, Luke and Shakkottai, Diya and Murali, Varun and
+                   Shakkottai, Srinivas},
+  booktitle     = {Proceedings of the 10th Conference on Robot Learning (CoRL)},
+  series        = {Proceedings of Machine Learning Research},
+  year          = {2026},
+  eprint        = {2607.06724},
   archivePrefix = {arXiv}
 }</pre>
-    </div>
   </section>
 
 </main>
