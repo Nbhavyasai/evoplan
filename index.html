@@ -110,6 +110,7 @@
     .grid img { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 6px; aspect-ratio: 4 / 3; }
     .grid figure { margin: 0; }
     .grid figcaption { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    .video { display: block; width: 100%; height: auto; border-radius: 6px; background: #111418; aspect-ratio: 16 / 9; }
     @media (max-width: 720px) {
       .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
       .grid-2 { grid-template-columns: 1fr; }
@@ -301,6 +302,19 @@
       <figure><img src="static/images/sim_gazebo_aisle.png" alt="Completed delivery"><figcaption>Completed mission</figcaption></figure>
     </div>
     <p class="caption">PDDL <code>move</code> actions are grounded into routes by Nav2 and checked against the mined constraint before execution. When a pedestrian enters the learned clearance floor, the step is vetoed and the planner replans.</p>
+
+    <figure class="figure">
+      <video class="video" controls muted playsinline preload="metadata" poster="static/images/evoplan_gazebo_run_a_poster.jpg">
+        <source src="static/videos/evoplan_gazebo_run_a.mp4" type="video/mp4">
+      </video>
+      <figcaption><strong>Simulation run A.</strong> The STL shield flags a planned path that passes too close to a pedestrian, the move r5 &rarr; r1 becomes undrivable, and EvoPlan reorders the tour to visit r2 first. The robot completes the mission with zero collisions. Left: Gazebo; right: Nav2 costmap. Footage is sped up where noted.</figcaption>
+    </figure>
+    <figure class="figure">
+      <video class="video" controls muted playsinline preload="metadata" poster="static/images/evoplan_gazebo_run_b_poster.jpg">
+        <source src="static/videos/evoplan_gazebo_run_b.mp4" type="video/mp4">
+      </video>
+      <figcaption><strong>Simulation run B.</strong> The same mission under different pedestrian traffic. The panel on the right shows every STL check of the planned path, its clearance margin over time, and the mission log. The robot finishes with zero collisions, never closer than 1.08 m to a person.</figcaption>
+    </figure>
   </section>
 
 
