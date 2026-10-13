@@ -194,6 +194,25 @@
       <figure><img src="static/images/jackal_cones.jpg" alt="Jackal driving past cones"><figcaption>The survey continues while YOLO-World searches.</figcaption></figure>
       <figure><img src="static/images/jackal_reached.jpg" alt="Jackal at the backpack"><figcaption>At the backpack after the perception-grounded replan.</figcaption></figure>
     </div>
+
+    <figure class="figure">
+      <video class="video" controls muted playsinline preload="metadata" poster="static/images/evoplan_real_backpack_1_poster.jpg">
+        <source src="static/videos/evoplan_real_backpack_1.mp4" type="video/mp4">
+      </video>
+      <figcaption><strong>Open-world search, run 1.</strong> The robot surveys the lab region by region. YOLO-World detects the backpack, the detection is grounded to the conference-door region, and the plan is repaired mid-mission; the robot checks the backpack and returns to the main door. Left: phone camera; right: RViz costmap. Footage is sped up where noted.</figcaption>
+    </figure>
+    <figure class="figure">
+      <video class="video" controls muted playsinline preload="metadata" poster="static/images/evoplan_real_backpack_2_poster.jpg">
+        <source src="static/videos/evoplan_real_backpack_2.mp4" type="video/mp4">
+      </video>
+      <figcaption><strong>Open-world search, run 2.</strong> After the backpack is spotted near the conference door, the repaired plan first finishes the survey at the empty wall, then returns through the conference door to the backpack.</figcaption>
+    </figure>
+    <figure class="figure">
+      <video class="video" controls muted playsinline preload="metadata" poster="static/images/evoplan_real_stl_poster.jpg">
+        <source src="static/videos/evoplan_real_stl.mp4" type="video/mp4">
+      </video>
+      <figcaption><strong>STL shield on the real robot.</strong> A person stands in the doorway to the next room. Every route past them violates the mined clearance constraint, so the shield adds a keep-out zone and vetoes the move; the robot stops short instead of squeezing past, and the planner switches to a goal it can still reach.</figcaption>
+    </figure>
   </section>
 
   <!-- ================================================================ -->
